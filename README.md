@@ -41,9 +41,9 @@ yarn add @muzikanto/picture
 ```typescript jsx
 function Component() {
   return (
-     <BasePicture
-           src={"your image url"}
-           aspectRatio={16 / 9}
+     <Picture
+        src={"your image url"}
+        aspectRatio={16 / 9}
        />
   )
 }
@@ -63,14 +63,14 @@ const StyledPicture = withStyles(() => ({
 function Component() {
   return (
      <Picture
-           src={"your image url"}
-           aspectRatio={16 / 9}
-           onClick={(e) => alert('onClick')}
-           onLoad={(e) => alert('onLoad')}
-           onError={(e) => alert('onError')}
-           
-           renderLoading={() => ...Custom Loading Component}
-           renderError={() => ...Custom Error Component}
+        src={"your image url"}
+        aspectRatio={16 / 9}
+        onClick={(e) => alert('onClick')}
+        onLoad={(e) => alert('onLoad')}
+        onError={(e) => alert('onError')}
+          
+        renderLoading={() => ...Custom Loading Component}
+        renderError={() => ...Custom Error Component}
        />
   )
 }
