@@ -18,15 +18,13 @@
 
 <!-- /TOC -->
 
+![](https://github.com/Muzikanto/picture/blob/master/picture.gif?raw=true)
+
 ## Introduction
 
 - image-loader
 - image-error
 - image-transition 
-
-## Preview 
-
-![](./picture.gif)
 
 ## Installation
 
@@ -36,9 +34,9 @@ npm i @muzikanto/picture
 yarn add @muzikanto/picture
 ```
 
-### Examples
+## Examples
 
-## Base
+### Base
 
 ```typescript jsx
 function Component() {
