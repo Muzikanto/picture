@@ -26,10 +26,6 @@ Peer dependencies:
     `react`, `react-dom`,
     `material-ui/core`, `material-ui/styles`
 
-- image-loader
-- image-error
-- image-transition 
-
 ## Installation
 
 ```sh
@@ -53,7 +49,7 @@ function Component() {
 }
 ```
 
-## Advanced
+### Advanced
 
 ```typescript jsx
 
