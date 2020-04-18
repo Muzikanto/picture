@@ -1,6 +1,7 @@
 {
     "name": "@muzikanto/picture",
-    "version": "1.0.0",
+    "version": "1.0.0-beta",
+    "license": "MIT",
     "main": "./index.js",
     "typings": "./index.d.ts",
     "scripts": {
@@ -10,20 +11,31 @@
         "clean": "rm -rf *.ts && rm -rf *.tsx && rm -rf *.js",
         "build": "npm run clean && tsc -b",
         "linter": "tslint -c tslint.json 'src/**/*.ts' --fix",
-        "test": "tslint -c tslint.json 'src/**/*.ts' && jest"
+        "prepublish": "npm run build",
+        "postpublish": "npm run clean"
     },
-    "jest": {
-        "rootDir": "src"
+    "homepage": "https://github.com/Muzikanto/picture",
+    "keywords": [
+        "react",
+        "picture",
+        "image",
+        "loading",
+        "error"
+    ],
+    "repository": {
+        "url": "https://github.com/Muzikanto/picture"
+    },
+    "bugs": {
+        "url": "https://github.com/Muzikanto/observable/picture"
     },
     "peerDependencies": {
         "react": "16.12.0",
         "react-dom": "16.12.0",
-        "@types/react": "16.9"
+        "@types/react": "16.9",
+        "@material-ui/core": "4.9.10",
+        "@material-ui/styles": "4.9.10"
     },
-    "dependencies": {
-        "@material-ui/core": "^4.9.10",
-        "@material-ui/styles": "^4.9.10"
-    },
+    "dependencies": {},
     "devDependencies": {
         "babel-preset-react-app": "^9.1.2",
         "babel-loader": "8.0.6",

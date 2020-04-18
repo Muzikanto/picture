@@ -10,14 +10,14 @@ type Omit<T, K extends keyof any> = T extends any ? Pick<T, Exclude<keyof T, K>>
 const styles = () => ({
     root: {
         width: '100%',
-        position: 'relative',
+        position: 'relative' as const,
         overflow: 'hidden',
         paddingTop: ({aspectRatio}: Omit<PictureProps, 'classes'>) => `calc(1 / ${aspectRatio || 1} * 100%)`
     },
     image: {
         width: '100%',
         height: '100%',
-        position: 'absolute',
+        position: 'absolute' as const,
         top: 0,
         left: 0,
         transition: ({disableTransition}: Omit<PictureProps, 'classes'>) => disableTransition ? undefined : `
@@ -29,7 +29,7 @@ const styles = () => ({
         opacity: 0,
     },
     status: {
-        position: 'absolute',
+        position: 'absolute' as const,
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)'
@@ -39,7 +39,7 @@ const styles = () => ({
         color: '#000000e0',
         fontSize: 40,
     },
-} as const);
+});
 
 export interface PictureProps extends WithStyles<typeof styles> {
     src: string;
@@ -53,14 +53,14 @@ export interface PictureProps extends WithStyles<typeof styles> {
     disableTransition?: boolean;
     loading?: boolean;
 
-    renderLoading?: () => React.ReactNode;
-    renderError?: () => React.ReactNode
+    renderLoading?: (props: { className: string }) => React.ReactNode
+    renderError?: (props: { className: string }) => React.ReactNode
 
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-    onLoad?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
-    onError?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
+    onLoad?: () => void;
+    onError?: () => void;
 
-    ContainerProps?: React.HTMLAttributes<HTMLDivElement>;
+    ContainerProps?: Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>;
     MediaProps?: Omit<CardMediaProps<'img'>, 'src' | 'component' | 'onLoad' | 'onError'>;
     ProgressProps?: CircularProgressProps;
     ErrorProps?: SvgIconProps;
@@ -75,18 +75,18 @@ function Component(props: PictureProps) {
         setState({src: props.src, error: false, loaded: false});
     }, [props.src]);
 
-    const handleLoadImage = (event: React.MouseEvent<HTMLImageElement>) => {
+    const handleLoadImage = () => {
         setState({...state, loaded: true});
 
         if (props.onLoad) {
-            props.onLoad(event);
+            props.onLoad();
         }
     };
-    const handleImageError = (event: React.MouseEvent<HTMLImageElement>) => {
+    const handleImageError = () => {
         setState({...state, loaded: false, error: true});
 
         if (props.onError) {
-            props.onError(event);
+            props.onError();
         }
     };
 
@@ -102,6 +102,7 @@ function Component(props: PictureProps) {
             )}
             onClick={onClick}
         >
+            <img/>
             {
                 (state.src && !props.loading && !state.error) && (
                     <CardMedia
@@ -126,14 +127,22 @@ function Component(props: PictureProps) {
                         {
                             showLoading && (
                                 <div className={classes.status}>
-                                    <CircularProgress
-                                        {...props.ProgressProps}
-                                        className={
-                                            clsx(classes.progress,
-                                                props.ProgressProps && props.ProgressProps.className,
-                                            )
-                                        }
-                                    />
+                                    {
+                                        props.renderLoading ?
+                                            props.renderLoading({
+                                                className:    clsx(classes.progress,
+                                                    props.ProgressProps && props.ProgressProps.className,
+                                                ),
+                                            }) :
+                                            <CircularProgress
+                                                {...props.ProgressProps}
+                                                className={
+                                                    clsx(classes.progress,
+                                                        props.ProgressProps && props.ProgressProps.className,
+                                                    )
+                                                }
+                                            />
+                                    }
                                 </div>
                             )
                         }
@@ -142,7 +151,11 @@ function Component(props: PictureProps) {
                                 <>
                                     {
                                         props.renderError ?
-                                            props.renderError() :
+                                            props.renderError({
+                                                className: clsx(classes.status, classes.error,
+                                                    props.ErrorProps && props.ErrorProps.className,
+                                                ),
+                                            }) :
                                             <SvgIcon
                                                 viewBox="0 0 384 384" width="40" height="40"
                                                 {...props.ErrorProps}

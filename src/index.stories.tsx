@@ -1,6 +1,6 @@
 import Box from '@material-ui/core/Box';
 import React from 'react';
-import BasePicture from './Picture';
+import BasePicture from './index';
 import {boolean, number, text} from '@storybook/addon-knobs';
 
 export default {
