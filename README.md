@@ -1,4 +1,4 @@
-## Observable and Observable-form
+## Picture (material-ui)
 
 [![npm version](https://badge.fury.io/js/%40muzikanto%2Fpicture.svg)](https://badge.fury.io/js/%40muzikanto%2Fpicture)
 [![downloads](https://img.shields.io/npm/dm/@muzikanto/picture.svg)](https://www.npmjs.com/package/@muzikanto/picture)
@@ -21,6 +21,10 @@
 ![](https://github.com/Muzikanto/picture/blob/master/picture.gif?raw=true)
 
 ## Introduction
+
+Peer dependencies: 
+    `react`, `react-dom`,
+    `material-ui/core`, `material-ui/styles`
 
 - image-loader
 - image-error
