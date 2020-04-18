@@ -1,6 +1,8 @@
+.idea
 .gitignore
 .npmrc
 tsconfig.json
 tslint.json
 storybook-static
 src
+.storybook

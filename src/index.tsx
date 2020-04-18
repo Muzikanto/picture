@@ -1,11 +1,10 @@
 import SvgIcon, {SvgIconProps} from '@material-ui/core/SvgIcon';
 import CardMedia, {CardMediaProps} from '@material-ui/core/CardMedia';
 import CircularProgress, {CircularProgressProps} from '@material-ui/core/CircularProgress';
-import withStyles, {WithStyles} from '@material-ui/core/styles/withStyles';
+import withStyles from '@material-ui/core/styles/withStyles';
 import clsx from 'clsx';
 import React from 'react';
-
-type Omit<T, K extends keyof any> = T extends any ? Pick<T, Exclude<keyof T, K>> : never;
+import {Omit, StandardProps} from "@material-ui/core";
 
 const styles = () => ({
     root: {
@@ -41,7 +40,11 @@ const styles = () => ({
     },
 });
 
-export interface PictureProps extends WithStyles<typeof styles> {
+export type PictureClassKey = 'root' | 'image' | 'empty' | 'status' | 'progress' | 'error';
+
+export interface PictureProps extends StandardProps<
+    React.HTMLAttributes<HTMLDivElement>,
+    PictureClassKey> {
     src: string;
 
     className?: string;
@@ -53,21 +56,22 @@ export interface PictureProps extends WithStyles<typeof styles> {
     disableTransition?: boolean;
     loading?: boolean;
 
-    renderLoading?: (props: { className: string }) => React.ReactNode
-    renderError?: (props: { className: string }) => React.ReactNode
+    renderLoading?: () => React.ReactNode
+    renderError?: () => React.ReactNode
 
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
     onLoad?: () => void;
     onError?: () => void;
 
-    ContainerProps?: Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>;
+    ContainerProps?: Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'className'>;
     MediaProps?: Omit<CardMediaProps<'img'>, 'src' | 'component' | 'onLoad' | 'onError'>;
     ProgressProps?: CircularProgressProps;
     ErrorProps?: SvgIconProps;
 }
 
 function Component(props: PictureProps) {
-    const {classes, disableError, disableSpinner, onClick} = props;
+    const { disableError, disableSpinner, onClick} = props;
+    const classes = props.classes as Required<PictureProps>['classes'];
 
     const [state, setState] = React.useState({src: '', error: false, loaded: false});
 
@@ -97,7 +101,6 @@ function Component(props: PictureProps) {
         <div
             {...props.ContainerProps}
             className={clsx(classes.root,
-                props.ContainerProps && props.ContainerProps.className,
                 props.className,
             )}
             onClick={onClick}
@@ -111,7 +114,7 @@ function Component(props: PictureProps) {
                         className={
                             clsx(
                                 classes.image, {
-                                    [classes.empty]: !state.loaded,
+                                    [classes.empty as string]: !state.loaded,
                                 }, props.MediaProps && props.MediaProps.className,
                             )
                         }
@@ -123,17 +126,13 @@ function Component(props: PictureProps) {
             }
             {
                 (showLoading || showError) && (
-                    <>
+                    <div className={classes.status}>
                         {
                             showLoading && (
                                 <div className={classes.status}>
                                     {
                                         props.renderLoading ?
-                                            props.renderLoading({
-                                                className:    clsx(classes.progress,
-                                                    props.ProgressProps && props.ProgressProps.className,
-                                                ),
-                                            }) :
+                                            props.renderLoading() :
                                             <CircularProgress
                                                 {...props.ProgressProps}
                                                 className={
@@ -151,11 +150,7 @@ function Component(props: PictureProps) {
                                 <>
                                     {
                                         props.renderError ?
-                                            props.renderError({
-                                                className: clsx(classes.status, classes.error,
-                                                    props.ErrorProps && props.ErrorProps.className,
-                                                ),
-                                            }) :
+                                            props.renderError() :
                                             <SvgIcon
                                                 viewBox="0 0 384 384" width="40" height="40"
                                                 {...props.ErrorProps}
@@ -174,7 +169,7 @@ function Component(props: PictureProps) {
                                 </>
                             )
                         }
-                    </>
+                    </div>
                 )
             }
         </div>
