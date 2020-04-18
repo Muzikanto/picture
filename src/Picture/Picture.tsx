@@ -4,7 +4,8 @@ import CircularProgress, {CircularProgressProps} from '@material-ui/core/Circula
 import withStyles, {WithStyles} from '@material-ui/core/styles/withStyles';
 import clsx from 'clsx';
 import React from 'react';
-import {Omit} from "@material-ui/core";
+
+type Omit<T, K extends keyof any> = T extends any ? Pick<T, Exclude<keyof T, K>> : never;
 
 const styles = () => ({
     root: {
