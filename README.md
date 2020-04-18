@@ -9,6 +9,7 @@
 
 -  [Introduction](#introduction)
 -  [Installation](#installation)
+-  [Preview](#preview)
 -  [Examples](#examples)
    -  [base](#base)
    -  [advanced](#advanced)
@@ -22,6 +23,10 @@
 - image-loader
 - image-error
 - image-transition 
+
+## Preview 
+
+![](./picture.gif)
 
 ## Installation
 

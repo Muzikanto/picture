@@ -63,7 +63,7 @@ export interface PictureProps extends StandardProps<
     onLoad?: () => void;
     onError?: () => void;
 
-    ContainerProps?: Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'className'>;
+    ContainerProps?: Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'className' | 'style'>;
     MediaProps?: Omit<CardMediaProps<'img'>, 'src' | 'component' | 'onLoad' | 'onError'>;
     ProgressProps?: CircularProgressProps;
     ErrorProps?: SvgIconProps;
@@ -104,8 +104,8 @@ function Component(props: PictureProps) {
                 props.className,
             )}
             onClick={onClick}
+            style={props.style}
         >
-            <img/>
             {
                 (state.src && !props.loading && !state.error) && (
                     <CardMedia
