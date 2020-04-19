@@ -11,7 +11,9 @@ const styles = () => ({
         width: '100%',
         position: 'relative' as const,
         overflow: 'hidden',
-        paddingTop: ({aspectRatio}: Omit<PictureProps, 'classes'>) => `calc(1 / ${aspectRatio || 1} * 100%)`
+        paddingTop: ({aspectRatio}: Omit<PictureProps, 'classes'>) => typeof aspectRatio === 'undefined' ?
+            undefined :
+            `calc(1 / ${aspectRatio} * 100%)`
     },
     image: {
         width: '100%',
@@ -94,7 +96,7 @@ function Component(props: PictureProps) {
         }
     };
 
-    const showLoading = (!disableSpinner && !state.loaded && !state.error) || props.loading;
+    const showLoading = (!disableSpinner && !state.loaded && !state.error) || (props.loading && !disableSpinner);
     const showError = !disableError && state.error;
 
     return (

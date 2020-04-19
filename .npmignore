@@ -3,7 +3,7 @@
 .npmrc
 tsconfig.json
 tslint.json
-storybook-static
+docs
 src
 .storybook
 picture.gif

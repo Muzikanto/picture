@@ -16,6 +16,10 @@ export function Picture() {
     const [loading1, setLoading1] = React.useState(true);
     const [loading2, setLoading2] = React.useState(true);
 
+    const aspectRatio = number('aspectRatio', 1.5);
+    const disableError = boolean('disableError', false);
+    const disableLoading = boolean('disableSpinner', false);
+
     React.useEffect(() => {
         setTimeout(() => {
             setLoading1(false);
@@ -30,23 +34,27 @@ export function Picture() {
             <Grid item xs={4}>
                 <BasePicture
                     src={text('src', img)}
-                    aspectRatio={number('aspectRatio', 1200 / 800)}
-                    disableError={boolean('disableError', false)}
-                    disableSpinner={boolean('disableSpinner', false)}
+                    aspectRatio={aspectRatio}
+                    disableError={disableError}
+                    disableSpinner={disableLoading}
                     loading={loading1}
                 />
             </Grid>
             <Grid item xs={4}>
                 <BasePicture
                     src={'static/media/test.68275464.jp'}
-                    aspectRatio={1200 / 800}
+                    aspectRatio={aspectRatio}
+                    disableError={disableError}
+                    disableSpinner={disableLoading}
                     loading={loading2}
                 />
             </Grid>
             <Grid item xs={4}>
                 <BasePicture
                     src={img}
-                    aspectRatio={1200 / 800}
+                    aspectRatio={aspectRatio}
+                    disableError={disableError}
+                    disableSpinner={disableLoading}
                     loading
                 />
             </Grid>
