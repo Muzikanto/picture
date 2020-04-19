@@ -36,6 +36,8 @@ yarn add @muzikanto/picture
 
 ## Examples
 
+[Example in storybook](https://muzikanto.github.io/picture)
+
 ### Base
 
 ```typescript jsx

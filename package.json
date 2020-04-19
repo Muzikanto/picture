@@ -15,7 +15,7 @@
         "prepublish": "npm run build",
         "postpublish": "npm run clean"
     },
-    "homepage": "https://github.com/Muzikanto/picture",
+    "homepage": "https://muzikanto.github.io/picture",
     "keywords": [
         "react",
         "picture",
