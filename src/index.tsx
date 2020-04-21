@@ -107,6 +107,7 @@ function Component(props: PictureProps) {
             )}
             onClick={onClick}
             style={props.style}
+            aria-details={props.src}
         >
             {
                 (state.src && !props.loading && !state.error) && (
