@@ -47,7 +47,7 @@ export type PictureClassKey = 'root' | 'image' | 'empty' | 'status' | 'progress'
 export interface PictureProps extends StandardProps<
     React.HTMLAttributes<HTMLDivElement>,
     PictureClassKey> {
-    src: string;
+    src?: string;
 
     className?: string;
     style?: React.CSSProperties;
@@ -73,13 +73,14 @@ export interface PictureProps extends StandardProps<
 
 function Component(props: PictureProps) {
     const { disableError, disableSpinner, onClick} = props;
+    const src = props.src || '#';
     const classes = props.classes as Required<PictureProps>['classes'];
 
     const [state, setState] = React.useState({src: '', error: false, loaded: false});
 
     React.useEffect(() => {
-        setState({src: props.src, error: false, loaded: false});
-    }, [props.src]);
+        setState({src, error: false, loaded: false});
+    }, [src]);
 
     const handleLoadImage = () => {
         setState({...state, loaded: true});
@@ -107,7 +108,7 @@ function Component(props: PictureProps) {
             )}
             onClick={onClick}
             style={props.style}
-            aria-details={props.src}
+            aria-details={src}
         >
             {
                 (state.src && !props.loading && !state.error) && (

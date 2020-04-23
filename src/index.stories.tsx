@@ -42,7 +42,7 @@ export function Picture() {
             </Grid>
             <Grid item xs={4}>
                 <BasePicture
-                    src={'static/media/test.68275464.jp'}
+                    src={undefined}
                     aspectRatio={aspectRatio}
                     disableError={disableError}
                     disableSpinner={disableLoading}
