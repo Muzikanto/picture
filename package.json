@@ -1,6 +1,6 @@
 {
     "name": "@muzikanto/picture",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "description": "image component",
     "license": "MIT",
     "main": "./index.js",
@@ -27,7 +27,7 @@
         "url": "https://github.com/Muzikanto/picture"
     },
     "bugs": {
-        "url": "https://github.com/Muzikanto/observable/picture"
+        "url": "https://github.com/Muzikanto/picture"
     },
     "peerDependencies": {
         "react": "16.12.0",
