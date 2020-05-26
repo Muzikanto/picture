@@ -51,6 +51,20 @@ function Component() {
 }
 ```
 
+### use image aspectRatio
+
+```typescript jsx
+function Component() {
+  return (
+     <Picture
+        src={"your image url"}
+        aspectRatio={undefined}
+        fallbackAspectRatio={16 / 10} // loader and error container size => 16 / 10
+       />
+  )
+}
+```
+
 ### Advanced
 
 ```typescript jsx

@@ -11,9 +11,9 @@ const styles = () => ({
         width: '100%',
         position: 'relative' as const,
         overflow: 'hidden',
-        paddingTop: ({aspectRatio}: Omit<PictureProps, 'classes'>) => typeof aspectRatio === 'undefined' ?
-            undefined :
-            `calc(1 / ${aspectRatio} * 100%)`
+        // paddingTop: ({aspectRatio}: Omit<PictureProps, 'classes'>) => typeof aspectRatio === 'undefined' ?
+        //     undefined :
+        //     `calc(1 / ${aspectRatio} * 100%)`,
     },
     image: {
         width: '100%',
@@ -44,14 +44,15 @@ const styles = () => ({
 
 export type PictureClassKey = 'root' | 'image' | 'empty' | 'status' | 'progress' | 'error';
 
-export interface PictureProps extends StandardProps<
-    React.HTMLAttributes<HTMLDivElement>,
+export interface PictureProps extends StandardProps<React.HTMLAttributes<HTMLDivElement>,
     PictureClassKey> {
     src?: string;
 
     className?: string;
     style?: React.CSSProperties;
+
     aspectRatio?: number;
+    fallbackAspectRatio?: number;
 
     disableError?: boolean;
     disableSpinner?: boolean;
@@ -72,17 +73,25 @@ export interface PictureProps extends StandardProps<
 }
 
 function Component(props: PictureProps) {
-    const { disableError, disableSpinner, onClick} = props;
+    const {disableError, disableSpinner, onClick} = props;
     const src = props.src || '#';
     const classes = props.classes as Required<PictureProps>['classes'];
 
     const [state, setState] = React.useState({src: '', error: false, loaded: false});
+    const [naturalAspectRatio, setNaturalAspectRatio] = React.useState(1 || props.fallbackAspectRatio);
 
     React.useEffect(() => {
         setState({src, error: false, loaded: false});
     }, [src]);
 
-    const handleLoadImage = () => {
+    const handleLoadImage = (img: any) => {
+        const nWidth = img.currentTarget.naturalWidth;
+        const nHeight = img.currentTarget.naturalHeight;
+
+        if (typeof props.aspectRatio === 'undefined') {
+            setNaturalAspectRatio(nWidth / nHeight);
+        }
+
         setState({...state, loaded: true});
 
         if (props.onLoad) {
@@ -107,8 +116,8 @@ function Component(props: PictureProps) {
                 props.className,
             )}
             onClick={onClick}
-            style={props.style}
             aria-details={src}
+            style={{paddingTop: `calc(1 / ${props.aspectRatio || naturalAspectRatio} * 100%)`, ...props.style}}
         >
             {
                 (state.src && !props.loading && !state.error) && (

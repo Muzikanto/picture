@@ -16,7 +16,7 @@ export function Picture() {
     const [loading1, setLoading1] = React.useState(true);
     const [loading2, setLoading2] = React.useState(true);
 
-    const aspectRatio = number('aspectRatio', 1.5);
+    const aspectRatio = number('aspectRatio', 1.7);
     const disableError = boolean('disableError', false);
     const disableLoading = boolean('disableSpinner', false);
 
