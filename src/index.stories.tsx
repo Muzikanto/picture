@@ -38,6 +38,7 @@ export function Picture() {
                     disableError={disableError}
                     disableSpinner={disableLoading}
                     loading={loading1}
+                    onLoad={console.log}
                 />
             </Grid>
             <Grid item xs={4}>

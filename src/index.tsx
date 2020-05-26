@@ -11,9 +11,9 @@ const styles = () => ({
         width: '100%',
         position: 'relative' as const,
         overflow: 'hidden',
-        // paddingTop: ({aspectRatio}: Omit<PictureProps, 'classes'>) => typeof aspectRatio === 'undefined' ?
-        //     undefined :
-        //     `calc(1 / ${aspectRatio} * 100%)`,
+        paddingTop: ({aspectRatio}: Omit<PictureProps, 'classes'>) => typeof aspectRatio === 'undefined' ?
+            undefined :
+            `calc(1 / ${aspectRatio} * 100%)`,
     },
     image: {
         width: '100%',
@@ -63,8 +63,8 @@ export interface PictureProps extends StandardProps<React.HTMLAttributes<HTMLDiv
     renderError?: () => React.ReactNode
 
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-    onLoad?: () => void;
-    onError?: () => void;
+    onLoad?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
+    onError?: (event: React.SyntheticEvent<HTMLImageElement>) => void;
 
     ContainerProps?: Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick' | 'className' | 'style'>;
     MediaProps?: Omit<CardMediaProps<'img'>, 'src' | 'component' | 'onLoad' | 'onError'>;
@@ -78,31 +78,23 @@ function Component(props: PictureProps) {
     const classes = props.classes as Required<PictureProps>['classes'];
 
     const [state, setState] = React.useState({src: '', error: false, loaded: false});
-    const [naturalAspectRatio, setNaturalAspectRatio] = React.useState(1 || props.fallbackAspectRatio);
 
     React.useEffect(() => {
         setState({src, error: false, loaded: false});
     }, [src]);
 
-    const handleLoadImage = (img: any) => {
-        const nWidth = img.currentTarget.naturalWidth;
-        const nHeight = img.currentTarget.naturalHeight;
-
-        if (typeof props.aspectRatio === 'undefined') {
-            setNaturalAspectRatio(nWidth / nHeight);
-        }
-
+    const handleLoadImage = (e: React.SyntheticEvent<HTMLImageElement>) => {
         setState({...state, loaded: true});
 
         if (props.onLoad) {
-            props.onLoad();
+            props.onLoad(e);
         }
     };
-    const handleImageError = () => {
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
         setState({...state, loaded: false, error: true});
 
         if (props.onError) {
-            props.onError();
+            props.onError(e);
         }
     };
 
@@ -117,7 +109,7 @@ function Component(props: PictureProps) {
             )}
             onClick={onClick}
             aria-details={src}
-            style={{paddingTop: `calc(1 / ${props.aspectRatio || naturalAspectRatio} * 100%)`, ...props.style}}
+            style={props.style}
         >
             {
                 (state.src && !props.loading && !state.error) && (

@@ -55,12 +55,16 @@ function Component() {
 
 ```typescript jsx
 function Component() {
+    const [aspectRatio, setAspectRatio] = React.useState(16 / 10);
+    
   return (
      <Picture
         src={"your image url"}
-        aspectRatio={undefined}
-        fallbackAspectRatio={16 / 10} // loader and error container size => 16 / 10
-       />
+        aspectRatio={aspectRatio}
+        onLoad={e => {
+            setAspectRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight);
+        }}
+     />
   )
 }
 ```
