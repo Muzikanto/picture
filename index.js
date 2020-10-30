@@ -14,6 +14,9 @@ const styles = () => ({
         width: '100%',
         position: 'relative',
         overflow: 'hidden',
+        paddingTop: ({ aspectRatio }) => typeof aspectRatio === 'undefined' ?
+            undefined :
+            `calc(1 / ${aspectRatio} * 100%)`,
     },
     image: {
         width: '100%',
@@ -46,30 +49,24 @@ function Component(props) {
     const src = props.src || '#';
     const classes = props.classes;
     const [state, setState] = react_1.default.useState({ src: '', error: false, loaded: false });
-    const [naturalAspectRatio, setNaturalAspectRatio] = react_1.default.useState(1 || props.fallbackAspectRatio);
     react_1.default.useEffect(() => {
         setState({ src, error: false, loaded: false });
     }, [src]);
-    const handleLoadImage = (img) => {
-        const nWidth = img.currentTarget.naturalWidth;
-        const nHeight = img.currentTarget.naturalHeight;
-        if (typeof props.aspectRatio === 'undefined') {
-            setNaturalAspectRatio(nWidth / nHeight);
-        }
+    const handleLoadImage = (e) => {
         setState(Object.assign(Object.assign({}, state), { loaded: true }));
         if (props.onLoad) {
-            props.onLoad();
+            props.onLoad(e);
         }
     };
-    const handleImageError = () => {
+    const handleImageError = (e) => {
         setState(Object.assign(Object.assign({}, state), { loaded: false, error: true }));
         if (props.onError) {
-            props.onError();
+            props.onError(e);
         }
     };
     const showLoading = (!disableSpinner && !state.loaded && !state.error) || (props.loading && !disableSpinner);
     const showError = !disableError && state.error;
-    return (react_1.default.createElement("div", Object.assign({}, props.ContainerProps, { className: clsx_1.default(classes.root, props.className), onClick: onClick, "aria-details": src, style: Object.assign({ paddingTop: `calc(1 / ${props.aspectRatio || naturalAspectRatio} * 100%)` }, props.style) }),
+    return (react_1.default.createElement("div", Object.assign({}, props.ContainerProps, { className: clsx_1.default(classes.root, props.className), onClick: onClick, "aria-details": src, style: props.style }),
         (state.src && !props.loading && !state.error) && (react_1.default.createElement(CardMedia_1.default, Object.assign({ component: 'img' }, props.MediaProps, { className: clsx_1.default(classes.image, {
                 [classes.empty]: !state.loaded,
             }, props.MediaProps && props.MediaProps.className), src: state.src, onLoad: handleLoadImage, onError: handleImageError }))),

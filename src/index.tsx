@@ -4,7 +4,7 @@ import CircularProgress, {CircularProgressProps} from '@material-ui/core/Circula
 import withStyles from '@material-ui/core/styles/withStyles';
 import clsx from 'clsx';
 import React from 'react';
-import {Omit, StandardProps} from "@material-ui/core";
+import {Omit} from "@material-ui/core";
 
 const styles = () => ({
     root: {
@@ -44,8 +44,8 @@ const styles = () => ({
 
 export type PictureClassKey = 'root' | 'image' | 'empty' | 'status' | 'progress' | 'error';
 
-export interface PictureProps extends StandardProps<React.HTMLAttributes<HTMLDivElement>,
-    PictureClassKey> {
+export interface PictureProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+    classes?: { [k in PictureClassKey]?: string; };
     src?: string;
 
     className?: string;
