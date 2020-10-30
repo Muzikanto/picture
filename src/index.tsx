@@ -44,7 +44,7 @@ const styles = () => ({
 
 export type PictureClassKey = 'root' | 'image' | 'empty' | 'status' | 'progress' | 'error';
 
-export interface PictureProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+export interface PictureProps extends Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'css'> {
     classes?: { [k in PictureClassKey]?: string; };
     src?: string;
 
